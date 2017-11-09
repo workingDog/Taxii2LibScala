@@ -1,0 +1,5 @@
+package taxii
+
+class TaxiiErrors {
+
+}
