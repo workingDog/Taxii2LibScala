@@ -3,21 +3,6 @@ package taxii
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-/*
- url = /<api-root>/collections/
- Parameters = <api-root> - the base URL of the API Root containing the Collections
- Pagination = Yes
- Filtering = no
- withHeaders("Accept" -> "application/vnd.oasis.taxii+json", "version" -> "2.0")
-
-Successful Response:
-  Status: 200 (OK)
-  Content-Type: application/vnd.oasis.taxii+json; version=2.0
-  Body: Collections
-
- Common Error Codes: 401, 403, 404
-*/
-
 /**
   * This Endpoint provides information about the Collections hosted under this API Root.
   *

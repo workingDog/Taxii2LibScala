@@ -86,8 +86,6 @@ case class TaxiiConnection(host: String,
     "Content-Type" -> "application/vnd.oasis.stix+json").toSeq
 
   // create the standalone WS client
-  // no argument defaults to a AhcWSClientConfig created from
-  // "AhcWSClientConfigFactory.forConfig(ConfigFactory.load, this.getClass.getClassLoader)"
   val wsClient = StandaloneAhcWSClient()
 
   /**
@@ -125,9 +123,8 @@ case class TaxiiConnection(host: String,
 
   /**
     * convert a json value to a Taxii2 or Bundle STIX object
-    *
     */
-  def jsonToTaxii[T: TypeTag](js: JsValue) = {
+  private def jsonToTaxii[T: TypeTag](js: JsValue) = {
     typeOf[T] match {
       case x if x == typeOf[TaxiiDiscovery] => TaxiiDiscovery.fmt.reads(js)
       case x if x == typeOf[TaxiiApiRoot] => TaxiiApiRoot.fmt.reads(js)
@@ -143,7 +140,7 @@ case class TaxiiConnection(host: String,
   }
 
   /**
-    * post data from the server. A POST with the chosen path is sent to the taxii server.
+    * post data to the server. A POST with the chosen path is sent to the taxii server.
     * The server response is converted a Taxii2 Status resource.
     *
     * @param thePath   the url path for the post
