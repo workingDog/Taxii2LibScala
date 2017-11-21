@@ -27,18 +27,18 @@ case class Collection(taxiiCollection: TaxiiCollection, api_root: String,
   val basePath = api_root + "collections/" + taxiiCollection.id
   val thePath = basePath + "/objects/"
 
-  def getObjects(): Future[Option[Bundle]] =
-    conn.fetch[Bundle](thePath, conn.stixHeaders).map(_.toOption)
+  def getObjects(filter: Option[Seq[(String, String)]] = None): Future[Option[Bundle]] =
+    conn.fetch[Bundle](thePath, conn.stixHeaders, filter).map(_.toOption)
 
-  def getObject(obj_id: String): Future[Option[Bundle]] =
-    conn.fetch[Bundle](thePath + obj_id + "/", conn.stixHeaders).map(_.toOption)
+  def getObject(obj_id: String, filter: Option[Seq[(String, String)]] = None): Future[Option[Bundle]] =
+    conn.fetch[Bundle](thePath + obj_id + "/", conn.stixHeaders, filter).map(_.toOption)
 
   def addObjects(bundle: Bundle): Future[Option[TaxiiStatus]] =
     conn.post(thePath, Json.toJson[Bundle](bundle)).map(_.toOption)
 
-  def getManifest(): Future[Option[TaxiiManifest]] = {
+  def getManifest(filter: Option[Seq[(String, String)]] = None): Future[Option[TaxiiManifest]] = {
     val thePath = basePath + "/manifest/"
-    conn.fetch[TaxiiManifest](thePath).map(_.toOption)
+    conn.fetch[TaxiiManifest](thePath, conn.getHeaders, filter).map(_.toOption)
   }
 
 }

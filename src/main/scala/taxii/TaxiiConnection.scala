@@ -1,8 +1,7 @@
 package taxii
 
 import com.kodekutters.stix.Bundle
-
-import java.net.URL
+import java.net.{URL, URLEncoder}
 import java.util.Base64
 import java.nio.charset.StandardCharsets
 
@@ -12,6 +11,7 @@ import scala.concurrent.duration._
 import scala.concurrent.Future
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+
 import scala.language.postfixOps
 import play.api.libs.ws.ahc._
 import play.shaded.ahc.org.asynchttpclient.Response
@@ -22,6 +22,7 @@ import play.api.libs.ws.WSAuthScheme
 import scala.language.implicitConversions
 import reflect.runtime.universe._
 import play.api.libs.ws.DefaultBodyReadables._
+
 import scala.concurrent.ExecutionContext.Implicits._
 
 
@@ -29,10 +30,37 @@ object TaxiiConnection {
   // create an Akka system for thread and streaming management
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
+
   // shutdown the ActorSystem properly
   def closeSystem(): Unit = {
     system.terminate()
   }
+
+  //  def encodeURIComponent(uri: String): String = {
+  //    // ref: https://stackoverflow.com/questions/607176/java-equivalent-to-javascripts-encodeuricomponent-that-produces-identical-outpu
+  //    try {
+  //      URLEncoder.encode(uri, "UTF-8")
+  //        .replaceAll("\\%28", "%28")
+  //        .replaceAll("\\%29", "%29")
+  //        .replaceAll("\\+", "%20")
+  //        .replaceAll("\\%27", "'")
+  //        .replaceAll("\\%21", "!")
+  //        .replaceAll("\\%7E", "~")
+  //    } catch {
+  //      case e: Exception => uri
+  //    }
+  //  }
+
+  /**
+    * convert a filter to a query string.
+    */
+  //  def asQueryString(filter: Seq[String, String]): String = {
+  //    (for (k <- filter.keys) yield {
+  //      val value = if (k.equals("added_after")) k else "match[" + k + "]"
+  //      encodeURIComponent(value) + '=' + encodeURIComponent(filter(k))
+  //    }).mkString("&")
+  //  }
+
 }
 
 /**
@@ -40,12 +68,12 @@ object TaxiiConnection {
   *
   * for example: https://test.freetaxii.com:8000
   *
-  * @param host
-  * @param port
-  * @param protocol
-  * @param user
-  * @param password
-  * @param timeout in seconds, default 5 seconds
+  * @param host     the host string
+  * @param port     the port number, as an Integer
+  * @param protocol the protocol, either http or https (default)
+  * @param user     the user login name
+  * @param password the user login password
+  * @param timeout  in seconds, default 5 seconds
   */
 case class TaxiiConnection(host: String,
                            port: Int,
@@ -96,12 +124,15 @@ case class TaxiiConnection(host: String,
     * @tparam T the type of taxii2 resource to GET
     * @return either a future Taxii2 error message or a future Taxii2 [T] type resource.
     */
-  def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders): Future[Either[TaxiiErrorMessage, T]] = {
-     // println(s"--> in fetch thePath $thePath")
+  def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
+                        filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
+
+    // println(s"--> in fetch thePath $thePath")
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)
       .withRequestTimeout(timeout second)
+      .withQueryStringParameters(filter.getOrElse(Seq.empty): _*)
       .get().map { response =>
       val js = response.body[JsValue]
       if (response.status == 200) {
