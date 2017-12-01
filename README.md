@@ -9,7 +9,6 @@ used to exchange cyber threat intelligence (CTI) over HTTPS.
 TAXII enables organizations to share CTI by defining an API that aligns with common sharing models.
 [TAXII 2.0 Specification](https://oasis-open.github.io/cti-documentation/) defines the TAXII RESTful API and its resources along with the requirements for TAXII Client and Server implementations. 
 
-The aim of this library is to assist creating TAXII 2.0 clients in Scala.
 
 **Taxii2LibScala** uses asynchronous requests to fetch TAXII 2.0 server resources. 
 It provides the following endpoints:
@@ -19,8 +18,6 @@ It provides the following endpoints:
 - *Collections*, endpoint for retrieving the list of collection resources. 
 - *Collection*, endpoint for retrieving a collection resource and associated objects. 
 - *Status*, endpoint for retrieving a status resource. 
-
-and *TaxiiConnection* providing the async communications to the server.
 
 ### Usage
 
@@ -35,9 +32,11 @@ The following TAXII 2.0 API services are supported with these corresponding asyn
 - Get Object Manifests --> collection.getManifests(filter, range)
 - Get Status --> status.get()
 
+The class *TaxiiConnection* provides the async communications to the server.
+
 Example:
 
-    val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword", 5)
+    val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword")
     val server = new Server("/taxii/", conn)
     server.discovery.map(d => println("---> discovery " + d))
 
