@@ -26,6 +26,8 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 
 object TaxiiConnection {
+  val taxiiVersion = "2.0"
+
   // create an Akka system for thread and streaming management
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
@@ -70,18 +72,18 @@ case class TaxiiConnection(host: String,
 
   val getHeaders = Map(
     "Accept" -> "application/vnd.oasis.taxii+json",
-    "version" -> "2.0",
+    "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
 
   val postHeaders = Map(
     "Accept" -> "application/vnd.oasis.taxii+json",
     "Content-Type" -> "application/vnd.oasis.stix+json",
-    "version" -> "2.0",
+    "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
 
   val stixHeaders = Map(
     "Accept" -> "application/vnd.oasis.stix+json",
-    "version" -> "2.0",
+    "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
 
   // create the standalone WS client
