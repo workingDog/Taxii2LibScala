@@ -1,7 +1,7 @@
 package taxii
 
 import com.kodekutters.stix.Bundle
-import java.net.{URL, URLEncoder}
+import java.net.URL
 import java.util.Base64
 import java.nio.charset.StandardCharsets
 
@@ -14,7 +14,6 @@ import akka.stream.ActorMaterializer
 
 import scala.language.postfixOps
 import play.api.libs.ws.ahc._
-import play.shaded.ahc.org.asynchttpclient.Response
 import play.api.libs.ws.JsonBodyReadables._
 import play.api.libs.ws.JsonBodyWritables._
 import play.api.libs.ws.WSAuthScheme
@@ -35,32 +34,6 @@ object TaxiiConnection {
   def closeSystem(): Unit = {
     system.terminate()
   }
-
-  //  def encodeURIComponent(uri: String): String = {
-  //    // ref: https://stackoverflow.com/questions/607176/java-equivalent-to-javascripts-encodeuricomponent-that-produces-identical-outpu
-  //    try {
-  //      URLEncoder.encode(uri, "UTF-8")
-  //        .replaceAll("\\%28", "%28")
-  //        .replaceAll("\\%29", "%29")
-  //        .replaceAll("\\+", "%20")
-  //        .replaceAll("\\%27", "'")
-  //        .replaceAll("\\%21", "!")
-  //        .replaceAll("\\%7E", "~")
-  //    } catch {
-  //      case e: Exception => uri
-  //    }
-  //  }
-
-  /**
-    * convert a filter to a query string.
-    */
-  //  def asQueryString(filter: Seq[String, String]): String = {
-  //    (for (k <- filter.keys) yield {
-  //      val value = if (k.equals("added_after")) k else "match[" + k + "]"
-  //      encodeURIComponent(value) + '=' + encodeURIComponent(filter(k))
-  //    }).mkString("&")
-  //  }
-
 }
 
 /**
@@ -127,7 +100,6 @@ case class TaxiiConnection(host: String,
   def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
                         filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
 
-    // println(s"--> in fetch thePath $thePath")
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)

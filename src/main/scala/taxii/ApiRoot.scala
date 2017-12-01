@@ -14,16 +14,16 @@ import scala.concurrent.ExecutionContext.Implicits.global
 case class ApiRoot(api_root: String, conn: TaxiiConnection) {
 
   // request the ApiRoot resource from the server --> will get the resource or an error message.
-  val response: Future[Either[TaxiiErrorMessage, TaxiiApiRoot]] = conn.fetch[TaxiiApiRoot](api_root)
+  lazy val response: Future[Either[TaxiiErrorMessage, TaxiiApiRoot]] = conn.fetch[TaxiiApiRoot](api_root)
   // extract the ApiRoot resource from the response
-  val apiRoot: Future[Option[TaxiiApiRoot]] = response.map(_.toOption)
+  lazy val apiRoot: Future[Option[TaxiiApiRoot]] = response.map(_.toOption)
   // extract the error message from the response
-  val errorMessage: Future[Option[TaxiiErrorMessage]] = response.map(Left(_).toOption)
+  lazy val errorMessage: Future[Option[TaxiiErrorMessage]] = response.map(Left(_).toOption)
 
   // convenience methods
   def collections(index: Int): Future[Collection] = Collections(api_root, conn).collections(index)
 
-  def collections(): Future[List[Collection]] = Collections(api_root, conn).collections()
+  def collections(range: String = ""): Future[List[Collection]] = Collections(api_root, conn).collections(range)
 
   def status(status_id: String): Future[Option[TaxiiStatus]] = Status(api_root, status_id, conn).get()
 

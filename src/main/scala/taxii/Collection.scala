@@ -27,8 +27,11 @@ case class Collection(taxiiCollection: TaxiiCollection, api_root: String,
   val basePath = api_root + "collections/" + taxiiCollection.id
   val thePath = basePath + "/objects/"
 
-  def getObjects(filter: Option[Seq[(String, String)]] = None): Future[Option[Bundle]] =
-    conn.fetch[Bundle](thePath, conn.stixHeaders, filter).map(_.toOption)
+  def getObjects(filter: Option[Seq[(String, String)]] = None, range: String = ""): Future[Option[Bundle]] = {
+    val theHeader = if (range == null || range.isEmpty) conn.stixHeaders
+    else (conn.stixHeaders.toMap + ("Range" -> ("items=" + range))).toSeq
+    conn.fetch[Bundle](thePath, theHeader, filter).map(_.toOption)
+  }
 
   def getObject(obj_id: String, filter: Option[Seq[(String, String)]] = None): Future[Option[Bundle]] =
     conn.fetch[Bundle](thePath + obj_id + "/", conn.stixHeaders, filter).map(_.toOption)
@@ -36,9 +39,11 @@ case class Collection(taxiiCollection: TaxiiCollection, api_root: String,
   def addObjects(bundle: Bundle): Future[Option[TaxiiStatus]] =
     conn.post(thePath, Json.toJson[Bundle](bundle)).map(_.toOption)
 
-  def getManifest(filter: Option[Seq[(String, String)]] = None): Future[Option[TaxiiManifest]] = {
+  def getManifest(filter: Option[Seq[(String, String)]] = None, range: String = ""): Future[Option[TaxiiManifest]] = {
     val thePath = basePath + "/manifest/"
-    conn.fetch[TaxiiManifest](thePath, conn.getHeaders, filter).map(_.toOption)
+    val theHeader = if (range == null || range.isEmpty) conn.getHeaders
+    else (conn.getHeaders.toMap + ("Range" -> ("items=" + range))).toSeq
+    conn.fetch[TaxiiManifest](thePath, theHeader, filter).map(_.toOption)
   }
 
 }

@@ -13,14 +13,14 @@ case class Server(thePath: String = "/taxii/", conn: TaxiiConnection) {
   def this(url: String, user: String, password: String, timeout: Int) = this(conn = new TaxiiConnection(url, user, password, timeout))
 
   // request the discovery resource from the server --> will get the resource or an error message.
-  val response: Future[Either[TaxiiErrorMessage, TaxiiDiscovery]] = conn.fetch[TaxiiDiscovery](conn.baseURL + thePath)
+  lazy val response: Future[Either[TaxiiErrorMessage, TaxiiDiscovery]] = conn.fetch[TaxiiDiscovery](conn.baseURL + thePath)
   // extract the discovery resource from the response
-  val discovery: Future[Option[TaxiiDiscovery]] = response.map(_.toOption)
+  lazy val discovery: Future[Option[TaxiiDiscovery]] = response.map(_.toOption)
   // extract the error message from the response
-  val errorMessage: Future[Option[TaxiiErrorMessage]] = response.map(Left(_).toOption)
+  lazy val errorMessage: Future[Option[TaxiiErrorMessage]] = response.map(Left(_).toOption)
 
   // request the api-roots from the server
-  val apiRootList: Future[List[ApiRoot]] =
+  lazy val apiRootList: Future[List[ApiRoot]] =
     discovery.map({
       case Some(d) => d.api_roots.map(rootList =>
         for (apiRoot <- rootList) yield ApiRoot(apiRoot, conn)).getOrElse(List.empty)
