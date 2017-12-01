@@ -32,7 +32,7 @@ The following TAXII 2.0 API services are supported with these corresponding asyn
 - Get Object Manifests --> collection.getManifests(filter, range)
 - Get Status --> status.get()
 
-The class *TaxiiConnection* provides the async communications to the server.
+The class *TaxiiConnection* provides the async communication to the server.
 
 Example:
 
