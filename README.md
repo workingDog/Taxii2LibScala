@@ -36,7 +36,8 @@ The class *TaxiiConnection* provides the async communication to the server.
 
 Example:
 
-    val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword")
+    // a connection object with a 5 seconds timeout
+    val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword", 5)
     val server = new Server("/taxii/", conn)
     server.discovery.map(d => println("---> discovery " + d))
 
