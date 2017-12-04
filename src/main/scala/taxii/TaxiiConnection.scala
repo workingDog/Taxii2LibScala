@@ -11,6 +11,7 @@ import scala.concurrent.duration._
 import scala.concurrent.Future
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+//import com.typesafe.scalalogging.Logger
 
 import scala.language.postfixOps
 import play.api.libs.ws.ahc._
@@ -26,7 +27,7 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 
 object TaxiiConnection {
-  val taxiiVersion = "2.0"
+  val taxiiVersion = "2.1"
 
   // create an Akka system for thread and streaming management
   implicit val system = ActorSystem()
@@ -62,6 +63,8 @@ case class TaxiiConnection(host: String,
   def this(url: String, user: String, password: String, timeout: Int) = this(new URL(url), user, password, timeout)
 
   import TaxiiConnection._
+
+  //  private val logger = Logger(classOf[TaxiiConnection])
 
   // make sure have a clean protocol value
   val protocolValue = if (protocol.trim.endsWith(":")) protocol.trim.dropRight(1) else protocol.trim
@@ -103,21 +106,42 @@ case class TaxiiConnection(host: String,
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)
+      //  .withRequestFilter(AhcCurlRequestLogger(logger.underlying))
       .withRequestTimeout(timeout second)
       .withQueryStringParameters(filter.getOrElse(Seq.empty): _*)
       .get().map { response =>
-      val js = response.body[JsValue]
-      if (response.status == 200) {
-        jsonToTaxii[T](js).asOpt match {
-          case Some(taxiiObj) =>
-            taxiiObj match {
-              case x: TaxiiErrorMessage => Left(x)
-              case x => Right(x.asInstanceOf[T])
-            }
-          case None => Left(TaxiiErrorMessage("fetch failed: cannot deserialize response"))
-        }
-      } else {
-        Left(TaxiiErrorMessage(s"fetch failed with response code ${response.status}")) // the error message
+      response.status match {
+        // partial content
+        case 206 =>
+          // todo aggregate the partial content
+          //          val contentRangeOpt = response.header("Content-Range")
+          //          contentRangeOpt.map(r => {
+          //            val rangeTuple = toRangeInfo(r)
+          //            println("----> r: " + r + " start: " + rangeTuple._1 + " end: " + rangeTuple._2 + " total: " + rangeTuple._3)
+          //          })
+          val js = response.body[JsValue]
+          jsonToTaxii[T](js).asOpt match {
+            case Some(taxiiObj) =>
+              taxiiObj match {
+                case x: TaxiiErrorMessage => Left(x)
+                case x => Right(x.asInstanceOf[T])
+              }
+            case None => Left(TaxiiErrorMessage("fetch failed: cannot deserialize response"))
+          }
+
+        // all results if the server can deliver without pagination
+        case 200 =>
+          val js = response.body[JsValue]
+          jsonToTaxii[T](js).asOpt match {
+            case Some(taxiiObj) =>
+              taxiiObj match {
+                case x: TaxiiErrorMessage => Left(x)
+                case x => Right(x.asInstanceOf[T])
+              }
+            case None => Left(TaxiiErrorMessage("fetch failed: cannot deserialize response"))
+          }
+
+        case _ => Left(TaxiiErrorMessage(s"fetch failed with response code ${response.status}"))
       }
     }.recover({
       case e: Exception => Left(TaxiiErrorMessage("could not connect to: " + thePath, Option(e.getMessage)))
@@ -182,4 +206,23 @@ case class TaxiiConnection(host: String,
     wsClient.close()
   }
 
+  /**
+    * return the Content-Range string as a tuple of 3 integers,
+    * start, end and total of the range
+    * If an error occurs return (0,0,0)
+    *
+    * @param theString the Content-Range  string
+    */
+  def toRangeInfo(theString: String): Tuple3[Int, Int, Int] = {
+    try {
+      val part = theString.replace("items ", "").split("/")
+      val theRange = part(0).split("-")
+      val start = theRange(0).toInt
+      val end = theRange(1).toInt
+      val total = part(1).toInt
+      (start, end, total)
+    } catch {
+      case ex: Throwable => (0, 0, 0)
+    }
+  }
 }
