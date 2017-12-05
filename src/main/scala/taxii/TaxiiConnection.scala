@@ -64,7 +64,7 @@ case class TaxiiConnection(host: String,
 
   import TaxiiConnection._
 
-  //  private val logger = Logger(classOf[TaxiiConnection])
+  // private val logger = Logger(classOf[TaxiiConnection])
 
   // make sure have a clean protocol value
   val protocolValue = if (protocol.trim.endsWith(":")) protocol.trim.dropRight(1) else protocol.trim
@@ -173,7 +173,7 @@ case class TaxiiConnection(host: String,
     * @param thePath   the url path for the post
     * @param jsonValue the JsValue data to send as a json Taxii resource.
     * @return either a future Taxii2 error message or a future Taxii2 Status resource.
-    *         Json.stringify(jsonValue)
+    *
     */
   def post(thePath: String, jsonValue: JsValue): Future[Either[TaxiiErrorMessage, TaxiiStatus]] = {
     wsClient.url(thePath)
@@ -209,7 +209,7 @@ case class TaxiiConnection(host: String,
   /**
     * return the Content-Range string as a tuple of 3 integers,
     * start, end and total of the range
-    * If an error occurs return (0,0,0)
+    * If an error occurs return (-1,-1,-1)
     *
     * @param theString the Content-Range  string
     */
@@ -222,7 +222,7 @@ case class TaxiiConnection(host: String,
       val total = part(1).toInt
       (start, end, total)
     } catch {
-      case ex: Throwable => (0, 0, 0)
+      case ex: Throwable => (-1, -1, -1)
     }
   }
 }

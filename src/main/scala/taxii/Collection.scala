@@ -39,7 +39,7 @@ case class Collection(taxiiCollection: TaxiiCollection, api_root: String,
   def addObjects(bundle: Bundle): Future[Option[TaxiiStatus]] =
     conn.post(thePath, Json.toJson[Bundle](bundle)).map(_.toOption)
 
-  def getManifest(filter: Option[Seq[(String, String)]] = None, range: String = ""): Future[Option[TaxiiManifest]] = {
+  def getManifests(filter: Option[Seq[(String, String)]] = None, range: String = ""): Future[Option[TaxiiManifest]] = {
     val thePath = basePath + "/manifest/"
     val theHeader = if (range == null || range.isEmpty) conn.getHeaders
     else (conn.getHeaders.toMap + ("Range" -> ("items=" + range))).toSeq
