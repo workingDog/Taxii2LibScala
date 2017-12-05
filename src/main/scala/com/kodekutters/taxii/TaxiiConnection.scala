@@ -27,7 +27,7 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 
 object TaxiiConnection {
-  val taxiiVersion = "2.1"
+  val taxiiVersion = "2.0"
 
   // create an Akka system for thread and streaming management
   implicit val system = ActorSystem()
@@ -74,12 +74,12 @@ case class TaxiiConnection(host: String,
   val hash = Base64.getEncoder.encodeToString((user + ":" + password).getBytes(StandardCharsets.UTF_8))
 
   val getHeaders = Map(
-    "Accept" -> "application/vnd.oasis.com.kodekutters.taxii+json",
+    "Accept" -> "application/vnd.oasis.taxii+json",
     "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
 
   val postHeaders = Map(
-    "Accept" -> "application/vnd.oasis.com.kodekutters.taxii+json",
+    "Accept" -> "application/vnd.oasis.taxii+json",
     "Content-Type" -> "application/vnd.oasis.stix+json",
     "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
@@ -102,7 +102,7 @@ case class TaxiiConnection(host: String,
     */
   def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
                         filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
-
+  // println("----> thePath="+thePath)
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)
