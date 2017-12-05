@@ -1,4 +1,4 @@
-package taxii
+package com.kodekutters.taxii
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -9,7 +9,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * which can be used to help users and clients decide whether and how they want to interact with it.
   *
   * @param api_root the api_root path of this ApiRootRequest
-  * @param conn     the connection to the taxii server
+  * @param conn     the connection to the com.kodekutters.taxii server
   */
 case class ApiRoot(api_root: String, conn: TaxiiConnection) {
 

@@ -1,6 +1,6 @@
 ## TAXII 2.0 client library in scala
 
-**Taxii2LibScala** is a [Scala](https://www.scala-lang.org/) library that 
+**taxii2Lib** is a [Scala](https://www.scala-lang.org/) library that 
 provides a set of classes and methods for building clients to [TAXII 2.0](https://oasis-open.github.io/cti-documentation/) servers.
 
 [[1]](https://oasis-open.github.io/cti-documentation/) 
@@ -10,7 +10,7 @@ TAXII enables organizations to share CTI by defining an API that aligns with com
 [TAXII 2.0 Specification](https://oasis-open.github.io/cti-documentation/) defines the TAXII RESTful API and its resources along with the requirements for TAXII Client and Server implementations. 
 
 
-**Taxii2LibScala** uses asynchronous requests to fetch TAXII 2.0 server resources. 
+**taxii2lib** uses asynchronous requests to fetch TAXII 2.0 server resources. 
 It provides the following endpoints:
 
 - *Server*, endpoint for retrieving the discovery and api roots resources.
@@ -36,9 +36,10 @@ The class *TaxiiConnection* provides the async communication to the server.
 
 Example:
 
+    import com.kodekutters.taxii._
     // a connection object with a 5 seconds timeout
     val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword", 5)
-    val server = new Server("/taxii/", conn)
+    val server = new Server("/com.kodekutters.taxii/", conn)
     server.discovery.map(d => println("---> discovery " + d))
 
 See the [TAXII 2.0 Specification](https://oasis-open.github.io/cti-documentation/) for the list 

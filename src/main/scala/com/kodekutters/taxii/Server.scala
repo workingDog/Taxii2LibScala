@@ -1,4 +1,4 @@
-package taxii
+package com.kodekutters.taxii
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   *
   * @param conn the connection to the taxii2 server
   */
-case class Server(thePath: String = "/taxii/", conn: TaxiiConnection) {
+case class Server(thePath: String = "/com/kodekutters/taxii/", conn: TaxiiConnection) {
 
   def this(url: String, user: String, password: String, timeout: Int) = this(conn = new TaxiiConnection(url, user, password, timeout))
 

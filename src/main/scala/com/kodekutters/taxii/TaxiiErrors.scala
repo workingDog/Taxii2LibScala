@@ -1,4 +1,4 @@
-package taxii
+package com.kodekutters.taxii
 
 
 // todo

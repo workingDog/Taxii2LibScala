@@ -1,4 +1,4 @@
-package taxii
+package com.kodekutters.taxii
 
 import com.kodekutters.stix.Timestamp
 import play.api.libs.json._

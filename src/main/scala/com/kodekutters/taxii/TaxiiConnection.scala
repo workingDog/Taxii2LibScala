@@ -1,4 +1,4 @@
-package taxii
+package com.kodekutters.taxii
 
 import com.kodekutters.stix.Bundle
 import java.net.URL
@@ -74,12 +74,12 @@ case class TaxiiConnection(host: String,
   val hash = Base64.getEncoder.encodeToString((user + ":" + password).getBytes(StandardCharsets.UTF_8))
 
   val getHeaders = Map(
-    "Accept" -> "application/vnd.oasis.taxii+json",
+    "Accept" -> "application/vnd.oasis.com.kodekutters.taxii+json",
     "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
 
   val postHeaders = Map(
-    "Accept" -> "application/vnd.oasis.taxii+json",
+    "Accept" -> "application/vnd.oasis.com.kodekutters.taxii+json",
     "Content-Type" -> "application/vnd.oasis.stix+json",
     "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
@@ -93,7 +93,7 @@ case class TaxiiConnection(host: String,
   val wsClient = StandaloneAhcWSClient()
 
   /**
-    * fetch data from the server. A GET with the chosen path is sent to the taxii server.
+    * fetch data from the server. A GET with the chosen path is sent to the com.kodekutters.taxii server.
     * The json server response is parsed then converted to a Taxii2 protocol resource.
     *
     * @param thePath the url path for the GET
@@ -167,7 +167,7 @@ case class TaxiiConnection(host: String,
   }
 
   /**
-    * post data to the server. A POST with the chosen path is sent to the taxii server.
+    * post data to the server. A POST with the chosen path is sent to the com.kodekutters.taxii server.
     * The server response is converted a Taxii2 Status resource.
     *
     * @param thePath   the url path for the post

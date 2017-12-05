@@ -1,4 +1,4 @@
-package taxii
+package com.kodekutters.taxii
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -6,7 +6,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
   * This Endpoint provides information about the Collections hosted under this API Root.
   *
-  * @param conn the connection to the taxii server
+  * @param conn the connection to the com.kodekutters.taxii server
   */
 case class Collections(api_root: String, conn: TaxiiConnection) {
 
