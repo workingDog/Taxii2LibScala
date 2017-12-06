@@ -39,7 +39,7 @@ Example:
     import com.kodekutters.taxii._
     // a connection object with a 5 seconds timeout
     val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword", 5)
-    val server = new Server("/com.kodekutters.taxii/", conn)
+    val server = new Server("/taxii/", conn)
     server.discovery.map(d => println("---> discovery " + d))
 
 See the [TAXII 2.0 Specification](https://oasis-open.github.io/cti-documentation/) for the list 
