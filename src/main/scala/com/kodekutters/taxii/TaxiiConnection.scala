@@ -27,7 +27,7 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 
 object TaxiiConnection {
-  val taxiiVersion = "2.0"
+  var taxiiVersion = "2.0"
 
   // create an Akka system for thread and streaming management
   implicit val system = ActorSystem()
