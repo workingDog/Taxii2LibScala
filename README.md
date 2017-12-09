@@ -49,14 +49,14 @@ of attributes of the TAXII 2.0 server responses.
 
 To use the latest release add the following dependency to your build.sbt:
 
-    libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.1"
+    libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.2"
 
 The best way to compile and package **taxii2lib** from source is to use [SBT](http://www.scala-sbt.org/).
 To compile and generate a jar file from source:
 
     sbt package
 
-This will produce a jar file "taxii2lib_2.12-0.2-SNAPSHOT.jar" in the "./target/scala-2.12" directory 
+This will produce a jar file "taxii2lib_2.12-0.3-SNAPSHOT.jar" in the "./target/scala-2.12" directory 
 for use in Scala applications.
 
 
@@ -66,7 +66,7 @@ To publish the libraries to your local (Ivy) repository, simply type:
 
 Then put this in your Scala app build.sbt file
 
-    libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.2-SNAPSHOT" 
+    libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.3-SNAPSHOT" 
  
 ### Dependencies and requirements
 
@@ -82,7 +82,7 @@ With older Java you need to download the JCE from Oracle and follow the installa
 ### References
  
 1) [TAXII 2.0 Specification](https://oasis-open.github.io/cti-documentation/)
- 
+2) [STIX 2.0 Specifications](https://oasis-open.github.io/cti-documentation/)
 
 ### Status
 work in progress, not tested.

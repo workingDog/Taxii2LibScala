@@ -1,11 +1,14 @@
 Change Log
 ==========
 
-### changes in 0.2-SNAPSHOT  
+### changes in 0.3-SNAPSHOT
+
+
+
+### changes in 0.2
 
 * changed TaxiiConnection.taxiiVersion to a var.
-
-
+* changed the dependency to scalastix-0.7 for STIX-2.0 specs.
 
 ### changes in 0.1
 
