@@ -89,7 +89,7 @@ case class TaxiiConnection(host: String,
     "version" -> taxiiVersion,
     "Authorization" -> ("Basic " + hash)).toSeq
 
-  // create the standalone WS client
+  // create the standalone Web Service client
   val wsClient = StandaloneAhcWSClient()
 
   /**
@@ -167,7 +167,7 @@ case class TaxiiConnection(host: String,
   }
 
   /**
-    * post data to the server. A POST with the chosen path is sent to the com.kodekutters.taxii server.
+    * post data to the server. A POST with the chosen path is sent to the taxii server.
     * The server response is converted a Taxii2 Status resource.
     *
     * @param thePath   the url path for the post
@@ -211,7 +211,7 @@ case class TaxiiConnection(host: String,
     * start, end and total of the range
     * If an error occurs return (-1,-1,-1)
     *
-    * @param theString the Content-Range  string
+    * @param theString the Content-Range  string, for example "items 0-10/58"
     */
   def toRangeInfo(theString: String): Tuple3[Int, Int, Int] = {
     try {

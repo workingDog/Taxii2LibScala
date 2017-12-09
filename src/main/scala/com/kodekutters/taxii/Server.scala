@@ -6,7 +6,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
   * This Endpoint provides general information about a TAXII Server, including the advertised API Roots.
   *
-  * @param conn the connection to the taxii2 server
+  * @param thePath the path to the server discovery endpoint, default "/taxii/"
+  * @param conn    the connection to the taxii2 server
   */
 case class Server(thePath: String = "/taxii/", conn: TaxiiConnection) {
 

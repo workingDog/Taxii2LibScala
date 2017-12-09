@@ -85,4 +85,4 @@ With older Java you need to download the JCE from Oracle and follow the installa
  
 
 ### Status
-work inn progress, not tested.
+work in progress, not tested.
