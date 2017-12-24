@@ -75,19 +75,16 @@ case class TaxiiConnection(host: String,
 
   val getHeaders = Map(
     "Accept" -> "application/vnd.oasis.taxii+json",
-    "version" -> taxiiVersion,
-    "Authorization" -> ("Basic " + hash)).toSeq
+    "version" -> taxiiVersion).toSeq
 
   val postHeaders = Map(
     "Accept" -> "application/vnd.oasis.taxii+json",
     "Content-Type" -> "application/vnd.oasis.stix+json",
-    "version" -> taxiiVersion,
-    "Authorization" -> ("Basic " + hash)).toSeq
+    "version" -> taxiiVersion).toSeq
 
   val stixHeaders = Map(
     "Accept" -> "application/vnd.oasis.stix+json",
-    "version" -> taxiiVersion,
-    "Authorization" -> ("Basic " + hash)).toSeq
+    "version" -> taxiiVersion).toSeq
 
   // create the standalone Web Service client
   val wsClient = StandaloneAhcWSClient()
