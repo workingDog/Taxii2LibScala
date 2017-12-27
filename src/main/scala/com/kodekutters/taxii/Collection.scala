@@ -10,7 +10,7 @@ import scala.concurrent.Future
   * This Endpoint provides general information about a Collection, which can be used to help
   * users and clients decide whether and how they want to interact with it.
   *
-  * @param conn the connection to the com.kodekutters.taxii server
+  * @param conn the connection to the taxii server
   */
 case class Collection(taxiiCollection: TaxiiCollection, api_root: String,
                       conn: TaxiiConnection = TaxiiConnection("", 0, "", "", "")) {

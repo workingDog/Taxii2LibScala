@@ -7,7 +7,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
   * This Endpoint provides information about the status of a previous request.
   *
-  * @param conn the connection to the com.kodekutters.taxii server
+  * @param conn the connection to the taxii server
   */
 case class Status(api_root: String, status_id: String, conn: TaxiiConnection) {
 

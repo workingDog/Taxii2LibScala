@@ -90,7 +90,7 @@ case class TaxiiConnection(host: String,
   val wsClient = StandaloneAhcWSClient()
 
   /**
-    * fetch data from the server. A GET with the chosen path is sent to the com.kodekutters.taxii server.
+    * fetch data from the server. A GET with the chosen path is sent to the taxii server.
     * The json server response is parsed then converted to a Taxii2 protocol resource.
     *
     * @param thePath the url path for the GET
@@ -99,7 +99,7 @@ case class TaxiiConnection(host: String,
     */
   def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
                         filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
-  // println("----> thePath="+thePath)
+    // println("----> thePath="+thePath)
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)
