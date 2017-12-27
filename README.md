@@ -47,7 +47,7 @@ of attributes of the TAXII 2.0 server responses.
 
 ### Installation and packaging
 
-To use the latest release add the following dependency to your build.sbt:
+To use the latest release (from Maven Central) add the following dependency to your *build.sbt*:
 
     libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.2"
 
@@ -60,11 +60,11 @@ This will produce a jar file "taxii2lib_2.12-0.3-SNAPSHOT.jar" in the "./target/
 for use in Scala applications.
 
 
-To publish the libraries to your local (Ivy) repository, simply type:
+To publish the libraries to your local repository, simply type:
 
     sbt publishLocal
 
-Then put this in your Scala app build.sbt file
+Then put this in your Scala app *build.sbt* file
 
     libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.3-SNAPSHOT" 
  
@@ -73,7 +73,7 @@ Then put this in your Scala app build.sbt file
 See *build.sbt* for the code dependencies.
 
 Note: Java Cryptography Extension (JCE) Unlimited Strength is needed for TLS-1.2 https connections.
-With Java 1.8.0_152 (and above) to enable TLS-1.2 use the following code: 
+With Java 1.8.0_152 to enable TLS-1.2 use the following code at the start of your app: 
 
     Security.setProperty("crypto.policy", "unlimited")
 
