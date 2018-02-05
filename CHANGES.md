@@ -1,11 +1,15 @@
 Change Log
 ==========
 
-### changes in 0.3-SNAPSHOT
+
+### changes in 0.4-SNAPSHOT
+
+
+
+### changes in 0.3
 
 * removed the "Authorization" -> ("Basic " + hash) from all headers 
     (since already using .withAuth(user, password, WSAuthScheme.BASIC) in TaxiiConnection)
-
 
 ### changes in 0.2
 

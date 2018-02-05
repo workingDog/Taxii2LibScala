@@ -8,7 +8,7 @@ version := (version in ThisBuild).value
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.3",
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.3",
-  "com.typesafe.play" %% "play-json" % "2.6.7",
+  "com.typesafe.play" %% "play-json" % "2.6.8",
   "com.github.workingDog" %% "scalastix" % "0.7",
  //   "ch.qos.logback" % "logback-classic" % "1.2.3",
  //   "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"

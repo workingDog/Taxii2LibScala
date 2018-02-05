@@ -66,10 +66,12 @@ case class TaxiiConnection(host: String,
 
   // private val logger = Logger(classOf[TaxiiConnection])
 
-  // make sure have a clean protocol value
-  val protocolValue = if (protocol.trim.endsWith(":")) protocol.trim.dropRight(1) else protocol.trim
+  private val portString = if (port.toString.isEmpty || (port == -1)) "" else ":" + port.toString.trim
 
-  val baseURL = protocolValue.toLowerCase + "://" + host.trim + (if (port.toString.isEmpty) "" else ":" + port.toString.trim)
+  // make sure have a clean protocol value
+  private val protocolValue = if (protocol.trim.endsWith(":")) protocol.trim.dropRight(1) else protocol.trim
+
+  val baseURL = protocolValue.toLowerCase + "://" + host.trim + portString
 
   val hash = Base64.getEncoder.encodeToString((user + ":" + password).getBytes(StandardCharsets.UTF_8))
 
@@ -99,7 +101,7 @@ case class TaxiiConnection(host: String,
     */
   def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
                         filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
-    // println("----> thePath="+thePath)
+  //   println("----> thePath="+thePath)
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)
