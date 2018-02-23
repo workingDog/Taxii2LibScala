@@ -30,6 +30,8 @@ import scala.concurrent.ExecutionContext.Implicits._
 
 object TaxiiConnection {
   var taxiiVersion = "2.0"
+  val mediaType_stix = "application/vnd.oasis.stix+json"
+  val mediaType_taxii = "application/vnd.oasis.taxii+json"
 
   // create an Akka system for thread and streaming management
   implicit val system = ActorSystem()
@@ -78,16 +80,16 @@ case class TaxiiConnection(host: String,
   val hash = Base64.getEncoder.encodeToString((user + ":" + password).getBytes(StandardCharsets.UTF_8))
 
   val getHeaders = Map(
-    "Accept" -> "application/vnd.oasis.taxii+json",
+    "Accept" -> mediaType_taxii,
     "version" -> taxiiVersion).toSeq
 
   val postHeaders = Map(
-    "Accept" -> "application/vnd.oasis.taxii+json",
-    "Content-Type" -> "application/vnd.oasis.stix+json",
+    "Accept" -> mediaType_taxii,
+    "Content-Type" -> mediaType_stix,
     "version" -> taxiiVersion).toSeq
 
   val stixHeaders = Map(
-    "Accept" -> "application/vnd.oasis.stix+json",
+    "Accept" -> mediaType_stix,
     "version" -> taxiiVersion).toSeq
 
   // create the standalone Web Service client
