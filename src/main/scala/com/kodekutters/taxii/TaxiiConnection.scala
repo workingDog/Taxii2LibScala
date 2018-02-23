@@ -11,6 +11,8 @@ import scala.concurrent.duration._
 import scala.concurrent.Future
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import play.api.libs.ws.StandaloneWSResponse
+
 //import com.typesafe.scalalogging.Logger
 
 import scala.language.postfixOps
@@ -101,7 +103,7 @@ case class TaxiiConnection(host: String,
     */
   def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
                         filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
-  //   println("----> thePath="+thePath)
+
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
       .withHttpHeaders(theHeaders: _*)
@@ -111,40 +113,34 @@ case class TaxiiConnection(host: String,
       .get().map { response =>
       response.status match {
         // partial content
-        case 206 =>
-          // todo aggregate the partial content
-          //          val contentRangeOpt = response.header("Content-Range")
-          //          contentRangeOpt.map(r => {
-          //            val rangeTuple = toRangeInfo(r)
-          //            println("----> r: " + r + " start: " + rangeTuple._1 + " end: " + rangeTuple._2 + " total: " + rangeTuple._3)
-          //          })
-          val js = response.body[JsValue]
-          jsonToTaxii[T](js).asOpt match {
-            case Some(taxiiObj) =>
-              taxiiObj match {
-                case x: TaxiiErrorMessage => Left(x)
-                case x => Right(x.asInstanceOf[T])
-              }
-            case None => Left(TaxiiErrorMessage("fetch failed: cannot deserialize response"))
-          }
+        case 206 => getTaxiiObject[T](response)
+        // todo aggregate the partial content
+        //          val contentRangeOpt = response.header("Content-Range")
+        //          contentRangeOpt.map(r => {
+        //            val rangeTuple = toRangeInfo(r)
+        //            println("----> r: " + r + " start: " + rangeTuple._1 + " end: " + rangeTuple._2 + " total: " + rangeTuple._3)
+        //          })
 
         // all results if the server can deliver without pagination
-        case 200 =>
-          val js = response.body[JsValue]
-          jsonToTaxii[T](js).asOpt match {
-            case Some(taxiiObj) =>
-              taxiiObj match {
-                case x: TaxiiErrorMessage => Left(x)
-                case x => Right(x.asInstanceOf[T])
-              }
-            case None => Left(TaxiiErrorMessage("fetch failed: cannot deserialize response"))
-          }
+        case 200 => getTaxiiObject[T](response)
 
         case _ => Left(TaxiiErrorMessage(s"fetch failed with response code ${response.status}"))
       }
     }.recover({
       case e: Exception => Left(TaxiiErrorMessage("could not connect to: " + thePath, Option(e.getMessage)))
     })
+  }
+
+  private def getTaxiiObject[T: TypeTag](response: StandaloneWSResponse): Either[TaxiiErrorMessage, T] = {
+    val js = response.body[JsValue]
+    jsonToTaxii[T](js).asOpt match {
+      case Some(taxiiObj) =>
+        taxiiObj match {
+          case x: TaxiiErrorMessage => Left(x)
+          case x => Right(x.asInstanceOf[T])
+        }
+      case None => Left(TaxiiErrorMessage("fetch failed: cannot deserialize response"))
+    }
   }
 
   /**
