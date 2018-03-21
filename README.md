@@ -73,7 +73,7 @@ Then put this in your Scala app *build.sbt* file
 See *build.sbt* for the code dependencies.
 
 Note: Java Cryptography Extension (JCE) Unlimited Strength is needed for TLS-1.2 https connections.
-With Java 1.8.0_152 to enable TLS-1.2 use the following code at the start of your app: 
+With Java 1.8.0_152 and above to enable TLS-1.2 use the following code at the start of your app: 
 
     Security.setProperty("crypto.policy", "unlimited")
 
@@ -85,4 +85,4 @@ With older Java you need to download the JCE from Oracle and follow the installa
 2) [STIX 2.0 Specifications](https://oasis-open.github.io/cti-documentation/)
 
 ### Status
-work in progress, not tested.
+work in progress, not fully tested.
