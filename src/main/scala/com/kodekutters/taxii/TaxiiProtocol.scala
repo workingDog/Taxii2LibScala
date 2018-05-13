@@ -7,6 +7,8 @@ import play.api.libs.json._
   * [1] Trusted Automated Exchange of Intelligence Information (TAXII™) is an application layer protocol
   * for the communication of cyber threat information in a simple and scalable manner.
   *
+  * Taxii-2.0
+  *
   * reference[1]: https://oasis-open.github.io/cti-documentation/
   */
 

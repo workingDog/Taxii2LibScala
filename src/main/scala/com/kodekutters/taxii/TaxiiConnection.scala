@@ -23,13 +23,14 @@ import play.api.libs.ws.WSAuthScheme
 
 import scala.language.implicitConversions
 import reflect.runtime.universe._
-import play.api.libs.ws.DefaultBodyReadables._
 
 import scala.concurrent.ExecutionContext.Implicits._
 
 
+
 object TaxiiConnection {
   var taxiiVersion = "2.0"
+
   val mediaType_stix = "application/vnd.oasis.stix+json"
   val mediaType_taxii = "application/vnd.oasis.taxii+json"
 
@@ -44,7 +45,7 @@ object TaxiiConnection {
 }
 
 /**
-  * an https connection to a Taxii2 server
+  * an https connection to a Taxii-2.0 server
   *
   * for example: https://test.freetaxii.com:8000
   *
@@ -96,12 +97,12 @@ case class TaxiiConnection(host: String,
   val wsClient = StandaloneAhcWSClient()
 
   /**
-    * fetch data from the server. A GET with the chosen path is sent to the taxii server.
-    * The json server response is parsed then converted to a Taxii2 protocol resource.
+    * fetch data from the server. A GET with the chosen path is sent to the Taxii-2.0 server.
+    * The json server response is parsed then converted to a Taxii-2.0 protocol resource.
     *
     * @param thePath the url path for the GET
-    * @tparam T the type of taxii2 resource to GET
-    * @return either a future Taxii2 error message or a future Taxii2 [T] type resource.
+    * @tparam T the type of Taxii-2.0 resource to GET
+    * @return either a future Taxii-2.0 error message or a future Taxii-2.0 [T] type resource.
     */
   def fetch[T: TypeTag](thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
                         filter: Option[Seq[(String, String)]] = None): Future[Either[TaxiiErrorMessage, T]] = {
@@ -113,6 +114,7 @@ case class TaxiiConnection(host: String,
       .withRequestTimeout(timeout second)
       .withQueryStringParameters(filter.getOrElse(Seq.empty): _*)
       .get().map { response =>
+      println("------> response: "+response)
       response.status match {
         // partial content
         case 206 => getTaxiiObject[T](response)
@@ -146,7 +148,7 @@ case class TaxiiConnection(host: String,
   }
 
   /**
-    * convert a json value to a Taxii2 or Bundle STIX object
+    * convert a json value to a Taxii-2.0 or Bundle STIX object
     */
   private def jsonToTaxii[T: TypeTag](js: JsValue) = {
     typeOf[T] match {
@@ -165,11 +167,11 @@ case class TaxiiConnection(host: String,
 
   /**
     * post data to the server. A POST with the chosen path is sent to the taxii server.
-    * The server response is converted a Taxii2 Status resource.
+    * The server response is converted a Taxii-2.0 Status resource.
     *
     * @param thePath   the url path for the post
-    * @param jsonValue the JsValue data to send as a json Taxii resource.
-    * @return either a future Taxii2 error message or a future Taxii2 Status resource.
+    * @param jsonValue the JsValue data to send as a json Taxii-2.0 resource.
+    * @return either a future Taxii-2.0 error message or a future Taxii-2.0 Status resource.
     *
     */
   def post(thePath: String, jsonValue: JsValue): Future[Either[TaxiiErrorMessage, TaxiiStatus]] = {
