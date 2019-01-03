@@ -41,6 +41,8 @@ Example:
     val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword", 5)
     val server = new Server("/taxii/", conn)
     server.discovery.map(d => println("---> discovery " + d))
+    
+See also [testtaxii](https://github.com/workingDog/testtaxii) for a simple test of **taxii2Lib**.   
 
 See the [TAXII 2.0 Specification](https://oasis-open.github.io/cti-documentation/) for the list 
 of attributes of the TAXII 2.0 server responses.
