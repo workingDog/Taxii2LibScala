@@ -38,9 +38,9 @@ Example:
 
     import com.kodekutters.taxii._
     // a connection object with a 5 seconds timeout
-    val conn = new TaxiiConnection("https://test.freetaxii.com:8000", "user-me", "mypassword", 5)
+    val conn = new TaxiiConnection("https://limo.anomali.com/api/v1/taxii2", "guest", "guest", 5)
     val server = new Server("/taxii/", conn)
-    server.discovery.map(d => println("---> discovery " + d))
+    server.discovery.map(d => println("---> discovery " + Json.prettyPrint(Json.toJson(d))))
     
 See also [testtaxii](https://github.com/workingDog/testtaxii) for a simple test of **taxii2Lib**.   
 
