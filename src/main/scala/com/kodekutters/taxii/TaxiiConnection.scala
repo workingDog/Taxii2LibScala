@@ -27,7 +27,9 @@ import reflect.runtime.universe._
 import scala.concurrent.ExecutionContext.Implicits._
 
 
-
+/**
+  * an https connection to a Taxii-2.0 server
+  */
 object TaxiiConnection {
   var taxiiVersion = "2.0"
 
@@ -47,7 +49,6 @@ object TaxiiConnection {
 /**
   * an https connection to a Taxii-2.0 server
   *
-  * for example: https://test.freetaxii.com:8000
   *
   * @param host     the host string
   * @param port     the port number, as an Integer
@@ -114,7 +115,6 @@ case class TaxiiConnection(host: String,
       .withRequestTimeout(timeout second)
       .withQueryStringParameters(filter.getOrElse(Seq.empty): _*)
       .get().map { response =>
-      println("------> response: "+response)
       response.status match {
         // partial content
         case 206 => getTaxiiObject[T](response)
