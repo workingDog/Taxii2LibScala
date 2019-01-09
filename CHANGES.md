@@ -1,8 +1,11 @@
 Change Log
 ==========
 
+### changes in 0.5-SNAPSHOT
 
-### changes in 0.4-SNAPSHOT
+
+
+### changes in 0.4
 
 * updated scala, sbt and associated dependencies
 
