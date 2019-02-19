@@ -8,6 +8,7 @@ Change Log
 ### changes in 0.5
 
 * change all Int (32 bit) to Long (64 bit), because the specs require 64 integers
+* updated dependency scalastix to 0.9
 
 ### changes in 0.4
 
