@@ -1,8 +1,13 @@
 Change Log
 ==========
 
-### changes in 0.5-SNAPSHOT
+### changes in 0.6-SNAPSHOT
 
+
+
+### changes in 0.5
+
+* change all Int (32 bit) to Long (64 bit), because the specs require 64 integers
 
 ### changes in 0.4
 

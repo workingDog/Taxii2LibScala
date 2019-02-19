@@ -6,10 +6,10 @@ scalaVersion := "2.12.8"
 version := (version in ThisBuild).value
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.0-RC2",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.0-RC2",
-  "com.typesafe.play" %% "play-json" % "2.7.0-RC2",
-  "com.github.workingDog" %% "scalastix" % "0.8",
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.1",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.1",
+  "com.typesafe.play" %% "play-json" % "2.7.1",
+  "com.github.workingDog" %% "scalastix" % "0.9",
  //   "ch.qos.logback" % "logback-classic" % "1.2.3",
  //   "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
   "org.slf4j" % "slf4j-nop" % "1.7.25"

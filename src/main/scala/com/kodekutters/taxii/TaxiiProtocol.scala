@@ -2,6 +2,10 @@ package com.kodekutters.taxii
 
 import com.kodekutters.stix.Timestamp
 import play.api.libs.json._
+import play.api.libs.functional.syntax._
+
+import scala.util.{Success, Try}
+
 
 /**
   * [1] Trusted Automated Exchange of Intelligence Information (TAXII™) is an application layer protocol
@@ -43,7 +47,7 @@ object TaxiiDiscovery {
   */
 case class TaxiiApiRoot(title: String,
                         versions: List[String],
-                        max_content_length: Int,
+                        max_content_length: Long,
                         description: Option[String] = None) extends Taxii2 {
 
   val resourceName: String = TaxiiApiRoot.resourceName
@@ -71,10 +75,10 @@ object TaxiiStatusFailure {
   */
 case class TaxiiStatus(id: String,
                        status: String,
-                       total_count: Int,
-                       success_count: Int,
-                       failure_count: Int,
-                       pending_count: Int,
+                       total_count: Long,
+                       success_count: Long,
+                       failure_count: Long,
+                       pending_count: Long,
                        request_timestamp: Option[Timestamp] = None,
                        failures: Option[List[TaxiiStatusFailure]] = None,
                        pendings: Option[List[String]] = None,

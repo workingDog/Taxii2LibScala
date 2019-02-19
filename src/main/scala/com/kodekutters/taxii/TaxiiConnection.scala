@@ -5,7 +5,8 @@ import java.net.URL
 import java.util.Base64
 import java.nio.charset.StandardCharsets
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json._
+import play.api.libs.json.Reads._
 
 import scala.concurrent.duration._
 import scala.concurrent.Future
@@ -135,8 +136,18 @@ case class TaxiiConnection(host: String,
     })
   }
 
+  // a crude way to replace the booleans given as string to real booleans
+  private def adjustBooleans(js: JsValue): JsValue = {
+    val newJs = js.toString()
+      .replaceAll(""": *(?i)"true"""", """:true""")
+      .replaceAll(""": *(?i)"false"""", """:false""")
+    Json.parse(newJs)
+  }
+
   private def getTaxiiObject[T: TypeTag](response: StandaloneWSResponse): Either[TaxiiErrorMessage, T] = {
     val js = response.body[JsValue]
+  //  println("-----> response js: " + js)
+  //  val jsx = adjustBooleans(jsTemp)
     jsonToTaxii[T](js).asOpt match {
       case Some(taxiiObj) =>
         taxiiObj match {
