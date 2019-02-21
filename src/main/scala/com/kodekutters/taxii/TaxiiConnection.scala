@@ -159,10 +159,12 @@ case class TaxiiConnection(host: String,
   }
 
   /** retrieve the raw response from the connection
-    * e.g. getRawResponse(...).map { r => ... r.body ...}
+    * e.g.  conn.getRawResponse("https://.....").map { response =>
+    *         println("-----> response status: " + response.status + " body: " + response.body)
+    *       }
     */
   def getRawResponse(thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
-                        filter: Option[Seq[(String, String)]] = None): Future[StandaloneWSResponse] = {
+                     filter: Option[Seq[(String, String)]] = None): Future[StandaloneWSResponse] = {
 
     wsClient.url(thePath)
       .withAuth(user, password, WSAuthScheme.BASIC)
