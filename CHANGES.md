@@ -3,7 +3,7 @@ Change Log
 
 ### changes in 0.6-SNAPSHOT
 
-
+* added getRawResponse(..) in TaxiiConnection to retrieve the raw response from a connection
 
 ### changes in 0.5
 

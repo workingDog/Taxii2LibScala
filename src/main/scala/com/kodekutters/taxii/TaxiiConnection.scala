@@ -158,6 +158,20 @@ case class TaxiiConnection(host: String,
     }
   }
 
+  /** retrieve the raw response from the connection
+    * e.g. getRawResponse(...).map { r => ... r.body ...}
+    */
+  def getRawResponse(thePath: String, theHeaders: Seq[(String, String)] = getHeaders,
+                        filter: Option[Seq[(String, String)]] = None): Future[StandaloneWSResponse] = {
+
+    wsClient.url(thePath)
+      .withAuth(user, password, WSAuthScheme.BASIC)
+      .withHttpHeaders(theHeaders: _*)
+      .withRequestTimeout(timeout second)
+      .withQueryStringParameters(filter.getOrElse(Seq.empty): _*)
+      .get()
+    }
+
   /**
     * convert a json value to a Taxii-2.0 or Bundle STIX object
     */
