@@ -14,8 +14,6 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import play.api.libs.ws.StandaloneWSResponse
 
-//import com.typesafe.scalalogging.Logger
-
 import scala.language.postfixOps
 import play.api.libs.ws.ahc._
 import play.api.libs.ws.JsonBodyReadables._

@@ -5,6 +5,8 @@ Change Log
 
 * added getRawResponse(..) in TaxiiConnection to retrieve the raw response from a connection
 
+
+
 ### changes in 0.5
 
 * change all Int (32 bit) to Long (64 bit), because the specs require 64 integers
