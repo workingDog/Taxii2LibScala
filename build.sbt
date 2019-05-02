@@ -8,8 +8,7 @@ version := (version in ThisBuild).value
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.3",
   "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.3",
- // "com.github.workingDog" %% "scalastix" % "0.9"
-   "com.github.workingDog" %% "scalastix" % "1.0-SNAPSHOT"
+   "com.github.workingDog" %% "scalastix" % "1.0"
 )
 
 organization := "com.github.workingDog"

@@ -170,7 +170,7 @@ case class TaxiiConnection(host: String,
       .withRequestTimeout(timeout second)
       .withQueryStringParameters(filter.getOrElse(Seq.empty): _*)
       .get()
-    }
+  }
 
   /**
     * convert a json value to a Taxii-2.0 or Bundle STIX object
