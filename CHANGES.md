@@ -9,7 +9,7 @@ Change Log
 ### changes in 0.6
 
 * added getRawResponse(..) in TaxiiConnection to retrieve the raw response from a connection
-
+* updated dependency scalastix to 1.0
 
 
 ### changes in 0.5
