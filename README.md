@@ -53,12 +53,15 @@ To use the latest release (from Maven Central) add the following dependency to y
 
     libraryDependencies += "com.github.workingDog" %% "taxii2lib" % "0.6"
 
-The best way to compile and package **taxii2lib** from source is to use [SBT](http://www.scala-sbt.org/).
+
+The current source code version is **0.7-SNAPSHOT** using scala 2.13.0. 
+
+To compile and package **taxii2lib** from source use [SBT](http://www.scala-sbt.org/).
 To compile and generate a jar file from source:
 
     sbt package
 
-This will produce a jar file "taxii2lib_2.12-0.7-SNAPSHOT.jar" in the "./target/scala-2.12" directory 
+This will produce a jar file "taxii2lib_2.13-0.7-SNAPSHOT.jar" in the "./target/scala-2.13" directory 
 for use in Scala applications.
 
 

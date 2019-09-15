@@ -1,14 +1,14 @@
 
 name := "taxii2lib"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.0"
 
 version := (version in ThisBuild).value
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.3",
-  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.3",
-   "com.github.workingDog" %% "scalastix" % "1.0"
+  "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.0.7",
+  "com.typesafe.play" %% "play-ws-standalone-json" % "2.0.7",
+   "com.github.workingDog" %% "scalastix" % "1.1-SNAPSHOT"
 )
 
 organization := "com.github.workingDog"
